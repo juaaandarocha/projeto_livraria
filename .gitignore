@@ -1,0 +1,6 @@
+.vs/
+Data/obj/*
+packages
+
+WSRest/bin/
+WSRest/obj/
