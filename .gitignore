@@ -1,5 +1,8 @@
 .vs/
-Data/obj/*
+Data/obj/
+Data/bin/
+Data/docs/
+
 packages
 
 WSRest/bin/

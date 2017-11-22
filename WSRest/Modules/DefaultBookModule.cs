@@ -14,14 +14,9 @@ namespace WSRest.Modules
     {
         private IDBContextFactory DBContextFactory { get; set; }
 
-        private IBookRepository BookRepository { get; set; }
-
-        public DefaultBookModule(
-            IDBContextFactory dbContextFactory,
-            IBookRepository bookRepository)
+        public DefaultBookModule(IDBContextFactory dbContextFactory)
         {
             this.DBContextFactory = dbContextFactory;
-            this.BookRepository = bookRepository;
 
             Post["/api/inserir-livro"] = InsertBook;
         }
@@ -39,7 +34,8 @@ namespace WSRest.Modules
             {
                 try
                 {
-                    this.BookRepository.Insert(req);
+                    IBookRepository repo = dbContext.CreateBookRepository();
+                    repo.Insert(req);
 
                     dbContext.Commit();
 
