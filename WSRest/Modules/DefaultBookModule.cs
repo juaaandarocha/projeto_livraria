@@ -32,8 +32,25 @@ namespace WSRest.Modules
             try { req = this.Bind<Book>(); }
             catch {
                 return this.Negotiate
-                           .WithModel(null)
                            .WithStatusCode(HttpStatusCode.InternalServerError);
+            }
+
+            using(IDBContext dbContext = this.DBContextFactory.CreateNewTransactionContext())
+            {
+                try
+                {
+                    this.BookRepository.Insert(req);
+
+                    dbContext.Commit();
+
+                    return this.Negotiate
+                               .WithStatusCode(HttpStatusCode.OK);
+                }
+                catch
+                {
+                    return this.Negotiate
+                           .WithStatusCode(HttpStatusCode.InternalServerError);
+                }
             }
         }
     }
