@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -17,5 +18,7 @@ namespace Data
         DbTransaction InnerTransaction { get; }
 
         void Commit();
+
+        IBookRepository CreateBookRepository();
     }
 }

@@ -23,7 +23,7 @@ namespace WSRest.Modules
             this.DBContextFactory = dbContextFactory;
             this.BookRepository = bookRepository;
 
-
+            Post["/api/inserir-livro"] = InsertBook;
         }
 
         private dynamic InsertBook(dynamic ctx)

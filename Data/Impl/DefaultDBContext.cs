@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
+using Data.Repositories;
+using Data.Repositories.Impl;
 
 namespace Data.Impl
 {
@@ -47,6 +49,11 @@ namespace Data.Impl
                 this.InnerConnection.Close();
                 this.InnerConnection = null;
             }
+        }
+
+        public IBookRepository CreateBookRepository()
+        {
+            return new DefaultBookRepository(this.InnerConnection, this.InnerTransaction);
         }
     }
 }
