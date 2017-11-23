@@ -21,39 +21,36 @@ namespace Data.Repositories.Impl
             this.Transaction = transaction;
         }
 
-        public bool Insert(Book book)
+        public void Insert(Book book)
         {
             string query = @"
 INSERT INTO livro
     (cdg_lvr, nom_lvr, nom_aut, dta_pub, nom_edi, nro_pag)
 VALUES
-    (:ID, :Name, :Author, :PublishDate, :PublishingCompany, :Pages)";
+    (@ID, @Name, @Author, @PublishDate, @PublishingCompany, @Pages)";
 
-            int affectedRows = this.Transaction.Connection.Execute(query, book, this.Transaction);
-            return affectedRows > 0;
+            this.Transaction.Connection.Execute(query, book, this.Transaction);
         }
 
-        public bool Update(Book book)
+        public void Update(Book book)
         {
             string query = @"
 UPDATE livro
-   SET nom_lvr = :Name,
-       nom_aut = :Author,
-       dta_pub = :PublishDate,
-       nom_edi = :PublishingCompany,
-       nro_pag = :Pages
- WHERE cdg_lvr = :ID";
+   SET nom_lvr = @Name,
+       nom_aut = @Author,
+       dta_pub = @PublishDate,
+       nom_edi = @PublishingCompany,
+       nro_pag = @Pages
+ WHERE cdg_lvr = @ID";
 
-            int affectedRows = this.Transaction.Connection.Execute(query, book, this.Transaction);
-            return affectedRows > 0;
+            this.Transaction.Connection.Execute(query, book, this.Transaction);
         }
 
-        public bool Delete(Book book)
+        public void Delete(int id)
         {
-            string query = "DELETE FROM livro WHERE cdg_lvr = :ID";
+            string query = "DELETE FROM livro WHERE cdg_lvr = @id";
 
-            int affectedRows = this.Transaction.Connection.Execute(query, book, this.Transaction);
-            return affectedRows > 0;
+            this.Transaction.Connection.Execute(query, new { id = id }, this.Transaction);
         }
 
         public Book Select(int id)
@@ -66,13 +63,13 @@ SELECT cdg_lvr AS ID,
        nom_edi AS PublishingCompany,
        nro_pag AS Pages
   FROM livro
- WHERE cdg_lvr = :id";
+ WHERE cdg_lvr = @id";
 
             Book book = this.Connection.Query<Book>(query, new { id = id }).FirstOrDefault();
             return book;
         }
 
-        public List<Book> SelectAll()
+        public IList<Book> SelectAll()
         {
             string query = @"
 SELECT cdg_lvr AS ID,

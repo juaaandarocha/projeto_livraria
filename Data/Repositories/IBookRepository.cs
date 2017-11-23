@@ -9,14 +9,14 @@ namespace Data.Repositories
 {
     public interface IBookRepository
     {
-        bool Insert(Book book);
+        void Insert(Book book);
 
-        bool Update(Book book);
+        void Update(Book book);
 
-        bool Delete(Book book);
+        void Delete(int id);
 
         Book Select(int id);
 
-        List<Book> SelectAll();
+        IList<Book> SelectAll();
     }
 }
